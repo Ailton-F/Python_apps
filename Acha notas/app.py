@@ -7,7 +7,6 @@ from time import sleep
 from selenium.webdriver.common.keys import Keys
 
 opt = Options()
-opt.add_argument('window-size=400,800')
 opt.add_argument('--headless')
 nav = webdriver.Chrome(executable_path=r"chromedriver.exe", options=opt)
 
