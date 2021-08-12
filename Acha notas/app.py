@@ -1,5 +1,5 @@
 import pandas as pd
-import requests
+import getpass
 from bs4 import BeautifulSoup as bs
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -10,8 +10,10 @@ opt = Options()
 opt.add_argument('--headless')
 nav = webdriver.Chrome(executable_path=r"chromedriver.exe", options=opt)
 
+sleep(1)
+
 mat = int(input('Matrícula: '))
-password_ = input('Senha: ')
+password_ = getpass.getpass('Senha: ')
 nav.get('https://suap.ifrn.edu.br/accounts/login/')
 nav.find_element_by_id("id_username").send_keys(mat)
 nav.find_element_by_id("id_password").send_keys(password_)
@@ -26,7 +28,6 @@ sleep(1)
 
 fontcode = nav.page_source
 site = bs(fontcode, 'html.parser')
-
 notas_data = []
 
 tabela = site.find('table', attrs={'summary': "Boletim do Aluno"})
@@ -49,13 +50,13 @@ for boletins in disciplinas:
         n2_content = n2n.text
     except:
         n2_content = '--'
-    
+
     try:
         n3n = boletins.find('td', attrs={'headers': 'th_n3n'})
         n3_content = n3n.text
     except:
         n3_content = '--'
-    
+
     try:
         n4n = boletins.find('td', attrs={'headers': 'th_n4n'})
         n4_content = n4n.text
@@ -64,7 +65,7 @@ for boletins in disciplinas:
 
     mdf = boletins.find('td', attrs={'headers': 'th_mfd'})
     mdf_content = mdf.text
-    
+
     situacao = boletins.find('td', attrs={'headers': 'th_situacao'})
     situacao_content = situacao.text
 
